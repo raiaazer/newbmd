@@ -2,9 +2,9 @@
 @section('body')
 <div class="page-container"><!-- add class "sidebar-collapsed" to close sidebar by default, "chat-visible" to make chat appear always -->
     <div class="main-content">
-        {{--  @if($errors->any())
+        @if($errors->any())
             {{ implode('', $errors->all('<div>:message</div>')) }}
-        @endif  --}}
+        @endif
         <div class="col-md-12">
             <ul class="nav nav-tabs nav-tabs-justified">
                 <li class="active">

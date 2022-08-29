@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\Models\User;
+use App\Mail\NewRegisterMail;
 use App\Http\Controllers\HomeController;
 use Illuminate\Http\Request;
 
@@ -53,6 +54,7 @@ class HomeController extends Controller
 
         $username = explode('@',$request->email);
         $username = $username[0];
+        $password = 12345;
 
         $user = new User;
         $user->first_name = $request->first_name;
@@ -67,9 +69,18 @@ class HomeController extends Controller
 
         $user->username = $username;
         $user->email = $request->email;
-        $user->password = \Hash::make($request->password);
+        $user->password = \Hash::make($password);
 
         $user->save();
+
+
+        $details = [
+            'username' => $username,
+            'email' => $request->email,
+            'password' => $password
+        ];
+        \Mail::to($request->email)->send(new NewRegisterMail($details));
+
         Auth::login($user);
         return redirect()->route('type');
 

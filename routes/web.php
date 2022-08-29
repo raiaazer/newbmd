@@ -50,6 +50,9 @@ Route::middleware('auth')->group(function(){
 
 
 });
+// Route::get('mail', [NotifyController::class, 'index'])->name('index');
+
+
 Route::post('certificate-register', [HomeController::class,'certificate_register'])->name('certificate-register');
 // Route::get('login', [HomeController::class,'login'])->name('login');
 

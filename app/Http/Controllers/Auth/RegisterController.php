@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Mail\NewRegisterMail;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
@@ -74,7 +75,8 @@ class RegisterController extends Controller
         $password = 12345;
         // $password = rand(10000000,99999999);
 
-        return User::create([
+
+        $user = User::create([
             'first_name' => '',
             'last_name' => '',
             'wife_first_name' => isset($data['wife_first_name']) ? $data['wife_first_name'] : '',
@@ -88,5 +90,12 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($password),
         ]);
+        $details = [
+            'username' => $username,
+            'password' => $password
+        ];
+        \Mail::to($data['email'])->send(new NewRegisterMail($details));
+        return $user;
+
     }
 }
