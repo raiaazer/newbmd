@@ -1,0 +1,38 @@
+/**
+ *
+ * Apply your custom CSS here
+ *
+*/
+
+body {
+}
+
+a {
+}
+.p-15{
+    padding: 15px;
+}
+.p-top{
+    padding-top: 15px;
+}
+.m-top{
+    margin-top: 15px;
+    margin-left: 15px;
+}
+.p-right{
+    padding-right: 10px;
+}
+.mar-top{
+    margin-top: 10px;
+}
+.custom_label{
+    border-bottom: 3px solid purple;
+    font-size: 19px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    padding-bottom: 7px;
+}
+
+.txt-cl{
+    color: white;
+}
