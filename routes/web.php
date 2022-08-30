@@ -5,6 +5,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserOrderController;
+use App\Http\Controllers\PayPalPaymentController;
+
+
 
 // use App\Http\Controllers\ResetPasswordController;
 // use App\Http\Controllers\Auth\ResetPasswordController;
@@ -45,13 +49,16 @@ Route::middleware('auth')->group(function(){
     Route::get('account', [CertificateController::class,'account'])->name('account');
     Route::get('edit_user', [UserController::class,'edit_user'])->name('edit_user');
     Route::post('forgot_password', [UserController::class,'forgot_password'])->name('forgot_password');
-
     Route::post('update_cart', [CertificateController::class,'update_cart'])->name('update_cart');
 
 
-});
-// Route::get('mail', [NotifyController::class, 'index'])->name('index');
 
+
+    Route::get('checkout', [UserOrderController::class,'checkout'])->name('checkout');
+    Route::post('paypal', [PayPalPaymentController::class,'postPaymentWithpaypal'])->name('paypal');
+    Route::get('paypal_status', [PayPalPaymentController::class,'getPaymentStatus'])->name('getPaymentStatus');
+
+});
 
 Route::post('certificate-register', [HomeController::class,'certificate_register'])->name('certificate-register');
 // Route::get('login', [HomeController::class,'login'])->name('login');

@@ -4,8 +4,8 @@
     <div class="panel-body">
         <div class="row">
             <strong>Certificate Details</strong>
-            <form action="{{ route('update_cart') }}" method="POST">
-                @csrf
+        <form action="{{ route('update_cart') }}" method="POST">
+            @csrf
             <table class="table table-model-2 table-hover">
                 <thead>
                     <tr>
@@ -97,8 +97,6 @@
                                 {!! $certificate->document_legalize ? 'Get your document legalised/apostilled: '.$certificate->document_legalize.'<br/>' : ''  !!}
 
                             </span>
-
-
                         </td>
                         <td class="col-sm-1">
                             <span id="num1" class="sb-total">{{ $certificate->document_price }}</span>

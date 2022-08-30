@@ -79,8 +79,7 @@
                             <label class="col-sm-2 control-label" for="field-3">Confirm Email </label>
 
                             <div class="col-sm-10">
-                                <input type="email" class="form-control" id="field-3" placeholder="Enter your email…">
-
+                                <input type="email" name="confirm_email" class="form-control @error('email') is-invalid @enderror" id="email" placeholder="Enter your email…" required autocomplete="email" autofocus>
                             </div>
                         </div>
                         <div class="form-group">

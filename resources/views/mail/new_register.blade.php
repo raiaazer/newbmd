@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <label class="custom_label">
-        <img src="{{ asset('assets/images/logo-white-bg@2x.png') }}" alt="logo">
-        <title>Xenon</title>
-    </label>
+    <table>
+        <tr>
+            <img src="{{ asset('assets/images/logo.png') }}" alt="logo">
+        </tr>
+    </table>
 </head>
 <body>
 
-    <h1>{{ env('APP_NAME') }}</h1>
-    <h1>{{ $details['username'] }}</h1>
-    <p>{{ $details['password'] }}</p>
+    <h1>Welcome to {{ env('APP_NAME') }}</h1>
+    <p>Thanks for creating an account on {{ env('APP_NAME') }}.
+        Your username is <strong>{{ $details['username'] }}</strong>. Your password has been automatically
+        generated: <strong>{{ $details['password'] }}</strong>
+    </p>
+    {{--  <h1>{{ $details['username'] }}</h1>
+    <p>{{ $details['password'] }}</p>  --}}
 
     {{--  {{ $data->username }}  --}}
 

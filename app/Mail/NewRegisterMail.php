@@ -30,7 +30,7 @@ class NewRegisterMail extends Mailable
      */
     public function build()
     {
-        return $this->subject('Welcome to '.env('APP_NAME'))
+        return $this->subject('Your '.env('APP_NAME'). ' account has been created!')
         ->view('mail.new_register');
     }
 }

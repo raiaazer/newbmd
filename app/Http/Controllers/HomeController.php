@@ -51,7 +51,8 @@ class HomeController extends Controller
             'certificate_type' => 'string|max:255',
             'email' => 'required|string|max:255|unique:users',
         ]);
-
+        if($request->email != $request->confirm_email)
+        return redirect()->back()->with($error);
         $username = explode('@',$request->email);
         $username = $username[0];
         $password = 12345;
