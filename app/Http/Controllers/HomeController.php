@@ -52,7 +52,9 @@ class HomeController extends Controller
             'email' => 'required|string|max:255|unique:users',
         ]);
         if($request->email != $request->confirm_email)
-        return redirect()->back()->with($error);
+        {
+            return redirect()->back();
+        }
         $username = explode('@',$request->email);
         $username = $username[0];
         $password = 12345;

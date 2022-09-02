@@ -142,7 +142,7 @@
                     </tr>
                 </thead>
             </table>
-            <button class="btn btn-primary">Proceed To Checkout</button>
+            <button class="btn btn-primary" onclick="window.location='{{ route('checkout') }}'">Proceed To Checkout</button>
         </div>
     </div>
 </div>

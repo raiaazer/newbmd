@@ -32,7 +32,10 @@ a {
     margin-bottom: 12px;
     padding-bottom: 7px;
 }
-
 .txt-cl{
     color: white;
+}
+
+.txt-color{
+    color: purple;
 }

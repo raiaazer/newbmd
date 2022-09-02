@@ -24,6 +24,7 @@ use PayPal\Api\Transaction;
 use App\Models\UserCertificateOrder;
 // use App\Http\Controllers\UserCart;
 use App\Models\UserCart;
+use App\Models\UserOrder;
 use Auth;
 
 
@@ -46,6 +47,35 @@ class PayPalPaymentController extends Controller
 
     public function postPaymentWithpaypal(Request $request)
     {
+        $request->validate([
+            'bill_first_name' => 'required|max:100',
+        ]);
+
+        $cart = UserCart::where('user_id', Auth::id())->first();
+        $det = new UserOrder();
+        $det->certificate_orders_id = $cart->user_certificate_orders_id;
+        $det->user_id = Auth::id();
+        $det->bill_first_name = $request->bill_first_name;
+        $det->bill_last_name = $request->bill_last_name;
+        $det->bill_company = $request->bill_company;
+        $det->bill_country = $request->bill_country;
+        $det->bill_address = $request->bill_address;
+        $det->bill_city = $request->bill_city;
+        $det->bill_postcode = $request->bill_postcode;
+        $det->bill_state = $request->bill_state;
+        $det->bill_email = $request->bill_email;
+        $det->bill_phone = $request->bill_phone;
+        $det->ship_first_name = $request->ship_first_name;
+        $det->ship_last_name = $request->ship_last_name;
+        $det->ship_company = $request->ship_company;
+        $det->ship_country = $request->ship_country;
+        $det->ship_address = $request->ship_address;
+        $det->ship_city = $request->ship_city;
+        $det->ship_state = $request->ship_state;
+        $det->ship_postcode = $request->ship_postcode;
+        $det->ship_order_notes = $request->ship_order_notes;
+        $det->save();
+
         $payer = new Payer();
         $payer->setPaymentMethod('paypal');
 
@@ -90,6 +120,7 @@ class PayPalPaymentController extends Controller
             ->setCancelUrl(URL::route('getPaymentStatus'));
 
         $payment = new Payment();
+
         $payment->setIntent('Sale')
             ->setPayer($payer)
             ->setRedirectUrls($redirect_urls)
@@ -112,6 +143,9 @@ class PayPalPaymentController extends Controller
                 break;
             }
         }
+        // dd($payment);
+        $det->transaction_id = $payment->getId();
+        $det->save();
 
         Session::put('paypal_payment_id', $payment->getId());
 
@@ -120,29 +154,47 @@ class PayPalPaymentController extends Controller
         }
 
         \Session::put('error','Unknown error occurred');
-    	return Redirect::route('checkout');
+    	return Redirect::route('getPaymentStatus');
     }
 
     public function getPaymentStatus(Request $request)
     {
         $payment_id = Session::get('paypal_payment_id');
-
-        Session::forget('paypal_payment_id');
+        // Session::forget('paypal_payment_id');
         if (empty($request->input('PayerID')) || empty($request->input('token'))) {
             \Session::put('error','Payment failed');
-            return Redirect::route('checkout');
+            $det = UserOrder::where('transaction_id', $payment_id)->first();
+            if($det){
+                $det->payment_status = 'failed';
+                $det->save();
+            }
+            // dd($request);
+            return Redirect::route('checkout')->with('error','Payment failed.');
         }
         $payment = Payment::get($payment_id, $this->_api_context);
         $execution = new PaymentExecution();
         $execution->setPayerId($request->input('PayerID'));
         $result = $payment->execute($execution, $this->_api_context);
-
+        // dd($result);
         if ($result->getState() == 'approved') {
             \Session::put('success','Payment success !!');
-            return Redirect::route('checkout');
+            // dd($result->getState());
+            $det = UserOrder::where('transaction_id', $payment_id)->first();
+            if($det){
+                $det->payment_status = 'success';
+                $det->save();
+            UserCart::where('user_id', Auth::id())->delete();
+            }
+            return Redirect::route('thank');
         }
+        // dd($result->getState());
 
         \Session::put('error','Payment failed !!');
-		return Redirect::route('checkout');
+        $det = UserOrder::where('transaction_id', $payment_id)->first();
+            if($det){
+                $det->payment_status = 'failed';
+                $det->save();
+            }
+		return Redirect::route('checkout')->with('error','Payment failed.');
     }
 }

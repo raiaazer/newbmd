@@ -10,6 +10,7 @@ use App\Http\Controllers\PayPalPaymentController;
 
 
 
+
 // use App\Http\Controllers\ResetPasswordController;
 // use App\Http\Controllers\Auth\ResetPasswordController;
 // use App\User;
@@ -57,6 +58,10 @@ Route::middleware('auth')->group(function(){
     Route::get('checkout', [UserOrderController::class,'checkout'])->name('checkout');
     Route::post('paypal', [PayPalPaymentController::class,'postPaymentWithpaypal'])->name('paypal');
     Route::get('paypal_status', [PayPalPaymentController::class,'getPaymentStatus'])->name('getPaymentStatus');
+
+    Route::post('submit-details', [UserOrderController::class,'submit_details'])->name('submit-details');
+    Route::get('thank', [UserController::class,'thank'])->name('thank');
+
 
 });
 

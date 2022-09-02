@@ -84,7 +84,5 @@
     @elseif(session()->has('error'))
         $.notify("{{ session()->get('error') }}", "error");
     @endif
-
-
 </script>
 @endsection
