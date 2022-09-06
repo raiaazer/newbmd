@@ -28,6 +28,17 @@
 
 
 <!-- notifications and other links -->
+@if (Auth::guest())
+<ul class="nav nav-userinfo navbar-right">
+    <li>
+        <a href="{{ route('login') }}">
+         <i class="fa-user"></i>
+         Login
+     </a>
+    </li>
+</ul>
+@endif
+
 @auth
 <ul class="nav nav-userinfo navbar-right">
     <li class="dropdown user-profile">
